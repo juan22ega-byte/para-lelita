@@ -17,22 +17,40 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 20px;
             color: #2c3e50;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Corazones flotantes */
+        .heart-particle {
+            position: fixed;
+            top: -10%;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
         }
         .container {
             background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             max-width: 500px;
             width: 100%;
             text-align: center;
+            z-index: 10;
+            margin-bottom: 30px;
         }
         h1 {
             color: #d63384;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-size: 2em;
         }
         .subtitle {
@@ -67,7 +85,7 @@
             border: 2px solid #ffb3c1;
             padding: 15px;
             border-radius: 12px;
-            margin-top: 15px;
+            margin-bottom: 20px;
         }
         .counter-title {
             font-weight: bold;
@@ -79,6 +97,63 @@
             font-weight: 600;
             color: #590d22;
         }
+        .letter-box {
+            background: #fdf0f4;
+            border-left: 4px solid #d63384;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 0.95em;
+            color: #4a4a4a;
+        }
+        .question-box {
+            margin-top: 20px;
+            position: relative;
+            min-height: 120px;
+        }
+        .question-title {
+            font-size: 1.2em;
+            color: #d63384;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+        }
+        .btn {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-yes {
+            background-color: #28a745;
+            color: white;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+        }
+        .btn-no {
+            background-color: #dc3545;
+            color: white;
+            position: absolute;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            transition: all 0.15s ease;
+        }
+        #success-message {
+            display: none;
+            color: #28a745;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -87,6 +162,7 @@
         <h1>Lelita & Teban ❤️</h1>
         <p class="subtitle">Juntos en cada momento...</p>
 
+        <!-- Carrusel de fotos -->
         <div class="carousel">
             <img src="image.JPG.jpeg" class="active" alt="Foto 1">
             <img src="image_2.JPG.jpeg" alt="Foto 2">
@@ -100,9 +176,26 @@
             <img src="image_10.JPG.jpeg" alt="Foto 10">
         </div>
 
+        <!-- Contador de tiempo -->
         <div class="counter">
             <div class="counter-title">Tiempo juntos 💕</div>
             <div id="timer" class="timer">Cargando contador...</div>
+        </div>
+
+        <!-- Carta romántica -->
+        <div class="letter-box">
+            <p><strong>Mi hermosa Lelita,</strong></p><br>
+            <p>Cada segundo a tu lado ha sido un regalo maravilloso. Creé este rinconcito especial para recordarte cuánto te amo y lo feliz que me haces cada día. Gracias por ser mi compañera, mi sonrisa y mi amor bonito. ❤️</p>
+        </div>
+
+        <!-- Pregunta interactiva -->
+        <div class="question-box">
+            <div class="question-title">¿Quieres estar conmigo para siempre? 💍</div>
+            <div class="buttons-container" id="btn-container">
+                <button class="btn btn-yes" onclick="selectYes()">¡SÍ! ❤️</button>
+                <button class="btn btn-no" id="btn-no" onmouseover="moveButton()" onclick="moveButton()">No 😜</button>
+            </div>
+            <div id="success-message">¡Sabía que dirías que sí! Te amo con todo mi corazón. 🥰🎉</div>
         </div>
     </div>
 
@@ -118,7 +211,7 @@
         }, 3500);
 
         // Contador de tiempo juntos (16 de diciembre de 2025)
-        const startDate = new Date('2025-12-16T00:00:00');
+        const startDate = new Date('2025-12-16T16:30:00');
 
         function updateTimer() {
             const now = new Date();
@@ -140,6 +233,49 @@
 
         setInterval(updateTimer, 1000);
         updateTimer();
+
+        // Lluvia de corazones
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerText = ['❤️', '💖', '💕', '🌸', '✨'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Botón "No" esquivo
+        const btnNo = document.getElementById('btn-no');
+        const container = document.getElementById('btn-container');
+
+        // Posición inicial del botón No
+        btnNo.style.left = '60%';
+
+        function moveButton() {
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btnNo.getBoundingClientRect();
+
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = 100; // Rango de movimiento vertical
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY) - 50;
+
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+        }
+
+        function selectYes() {
+            document.getElementById('btn-container').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        }
     </script>
 </body>
 </html>
