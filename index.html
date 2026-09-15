@@ -100,13 +100,16 @@
         .letter-box {
             background: #fdf0f4;
             border-left: 4px solid #d63384;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: left;
             margin-bottom: 25px;
-            line-height: 1.6;
+            line-height: 1.7;
             font-size: 0.95em;
             color: #4a4a4a;
+        }
+        .music-box {
+            margin-bottom: 25px;
         }
         .question-box {
             margin-top: 20px;
@@ -182,10 +185,17 @@
             <div id="timer" class="timer">Cargando contador...</div>
         </div>
 
-        <!-- Carta romántica -->
+        <!-- Carta romántica completa -->
         <div class="letter-box">
-            <p><strong>Mi hermosa Lelita,</strong></p><br>
-            <p>Cada segundo a tu lado ha sido un regalo maravilloso. Creé este rinconcito especial para recordarte cuánto te amo y lo feliz que me haces cada día. Gracias por ser mi compañera, mi sonrisa y mi amor bonito. ❤️</p>
+            <p><strong>Mi hermosa Isabella (Lelita),</strong></p><br>
+            <p>Desde el 16 de diciembre de 2025 a las 4:30, mi vida cambió por completo. Cada día a tu lado ha sido una aventura llena de risas, abrazos y momentos inolvidables.</p><br>
+            <p>Creé esta página especial solo para ti, para plasmar un poquito de todo el amor tan grande que siento por ti. Gracias por ser mi apoyo, mi felicidad y la persona con la que quiero compartir cada uno de mis días.</p><br>
+            <p>Te amo con todo mi corazón, hoy y siempre. ❤️</p>
+        </div>
+
+        <!-- Reproductor de Música -->
+        <div class="music-box">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3K4292131920213192" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
 
         <!-- Pregunta interactiva -->
@@ -210,8 +220,8 @@
             images[currentIndex].classList.add('active');
         }, 3500);
 
-        // Contador de tiempo juntos (16 de diciembre de 2025)
-        const startDate = new Date('2025-12-16T16:30:00');
+        // Contador de tiempo juntos (16 de diciembre de 2025 a las 4:30)
+        const startDate = new Date('2025-12-16T04:30:00');
 
         function updateTimer() {
             const now = new Date();
@@ -255,7 +265,6 @@
         const btnNo = document.getElementById('btn-no');
         const container = document.getElementById('btn-container');
 
-        // Posición inicial del botón No
         btnNo.style.left = '60%';
 
         function moveButton() {
@@ -263,7 +272,7 @@
             const btnRect = btnNo.getBoundingClientRect();
 
             const maxX = containerRect.width - btnRect.width;
-            const maxY = 100; // Rango de movimiento vertical
+            const maxY = 100;
 
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY) - 50;
