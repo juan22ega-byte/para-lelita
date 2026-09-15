@@ -22,6 +22,76 @@
             overflow-x: hidden;
             position: relative;
         }
+
+        /* Overlay de la carta de inicio */
+        #envelope-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffc2d1 0%, #ffe6eb 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .envelope-container {
+            cursor: pointer;
+            text-align: center;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .envelope-icon {
+            font-size: 100px;
+            filter: drop-shadow(0 10px 15px rgba(214, 51, 132, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-container:hover .envelope-icon {
+            transform: scale(1.1);
+        }
+
+        .envelope-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #d63384;
+            font-weight: bold;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Ocultar contenido principal al cargar */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Corazones flotantes */
         .heart-particle {
             position: fixed;
@@ -37,17 +107,7 @@
                 transform: translateY(110vh) rotate(360deg);
             }
         }
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            z-index: 10;
-            margin-bottom: 30px;
-        }
+
         h1 {
             color: #d63384;
             margin-bottom: 5px;
@@ -161,7 +221,16 @@
 </head>
 <body>
 
-    <div class="container">
+    <!-- Carta de Inicio -->
+    <div id="envelope-overlay" onclick="openEnvelope()">
+        <div class="envelope-container">
+            <div class="envelope-icon">✉️</div>
+            <div class="envelope-text">Tienes una carta, toca para abrir 💖</div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="container" id="main-content">
         <h1>Lelita & Teban ❤️</h1>
         <p class="subtitle">Juntos en cada momento...</p>
 
@@ -191,8 +260,6 @@
             <p>Mi amor, te amo muchísimo, gracias por estar siempre por ser loca, por ser amorosa, por ser esa niña hermosa que siempre brilla así el día este, o estés apagada mi amor, gracias a ti, eh conocido mucho de mi, eh querido vivir junto a ti y quiero hacerlo por el resto de mi vida, perdón si a veces puedo llegar a ser tan difícil o problemático, mi amor yo te quiero siempre, y quiero que podamos estar para siempre quiero que seamos tú y yo, seamos chistosos cansones, que confiemos, que hagamos sentir cómodo y seguro al otro, que pensemos en los dos en nuestra relación, porque hablo de nosotros ahora, porque así como estamos cada uno solito estamos los dos juntos, y espero que eso de estar solo y tener nuestro espacio no signifique que el otro no puede estar, que antes contemos con el otro para ser y siempre ser, una pareja que se apoya con todo, y todo, mi amor un segundo sin ti es muy difícil, y más cuando sé que es por culpa mía, te quiero para toda toda mi vida Isabella. Te Amo🩵</p>
         </div>
 
-  
-
         <!-- Reproductor de Música oficial de Spotify -->
         <div class="music-box">
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0q37bjxhRwzjtZynlU9ZsI?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -210,6 +277,18 @@
     </div>
 
     <script>
+        // Abrir la carta e ingresar al sitio
+        function openEnvelope() {
+            const overlay = document.getElementById('envelope-overlay');
+            const mainContent = document.getElementById('main-content');
+            
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.visibility = 'hidden';
+                mainContent.classList.add('visible');
+            }, 800);
+        }
+
         // Carrusel de imágenes
         const images = document.querySelectorAll('.carousel img');
         let currentIndex = 0;
