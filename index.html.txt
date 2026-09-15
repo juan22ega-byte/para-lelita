@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lelita & Teban ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #2c3e50;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.92);
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+      text-align: center;
+      max-width: 550px;
+      width: 100%;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      color: #2b7a9e;
+      font-size: 2.2rem;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    /* Galería / Slider */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      max-height: 380px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      font-size: 1.5rem;
+      padding: 8px 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 5;
+      transition: background 0.3s;
+    }
+
+    .slider-btn:hover {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+
+    /* Contador */
+    .timer-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .timer-container {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+      background: #eef7fc;
+      padding: 15px;
+      border-radius: 15px;
+      border: 1px solid #d4ebf8;
+    }
+
+    .timer-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timer-number {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #2b7a9e;
+    }
+
+    .timer-label {
+      font-size: 0.75rem;
+      color: #777;
+    }
+
+    /* Reproductor Spotify */
+    .spotify-player {
+      margin: 20px 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Carta */
+    .letter-container {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      border-left: 4px solid #52abda;
+      text-align: left;
+      margin: 25px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .letter-container p {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #444;
+      white-space: pre-line;
+    }
+
+    /* Sección Final */
+    .question-section {
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .question-title {
+      font-size: 1.25rem;
+      color: #2b7a9e;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      min-height: 60px;
+      align-items: center;
+    }
+
+    button.btn {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .btn-yes {
+      background-color: #52abda;
+      color: white;
+      box-shadow: 0 4px 12px rgba(82, 171, 218, 0.4);
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.08);
+      background-color: #3895c4;
+    }
+
+    .btn-no {
+      background-color: #e0e0e0;
+      color: #555;
+      position: absolute;
+      transition: all 0.2s ease;
+    }
+
+    /* Corazones flotantes */
+    .heart {
+      position: fixed;
+      color: #72c1ea;
+      font-size: 22px;
+      animation: float 4s linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Lelita & Teban 🩵</h1>
+    <p class="subtitle">Nuestra historia juntos</p>
+
+    <!-- Carrusel de fotos -->
+    <div class="slider-container">
+      <button class="slider-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+      <div class="slider-track" id="track">
+        <!-- Reemplaza los nombres de archivo por los tuyos si los cambias -->
+        <div class="slide"><img src="image.png" alt="Foto 1"></div>
+        <div class="slide"><img src="image_2.png" alt="Foto 2"></div>
+        <div class="slide"><img src="image_3.png" alt="Foto 3"></div>
+        <div class="slide"><img src="image_4.png" alt="Foto 4"></div>
+        <div class="slide"><img src="image_5.png" alt="Foto 5"></div>
+        <div class="slide"><img src="image_6.png" alt="Foto 6"></div>
+        <div class="slide"><img src="image_7.png" alt="Foto 7"></div>
+        <div class="slide"><img src="image_8.png" alt="Foto 8"></div>
+        <div class="slide"><img src="image_9.png" alt="Foto 9"></div>
+        <div class="slide"><img src="image_10.png" alt="Foto 10"></div>
+      </div>
+      <button class="slider-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+
+    <!-- Contador de Tiempo -->
+    <div class="timer-title">Llevamos juntos:</div>
+    <div class="timer-container">
+      <div class="timer-box">
+        <span class="timer-number" id="days">0</span>
+        <span class="timer-label">Días</span>
+      </div>
+      <div class="timer-box">
+        <span class="timer-number" id="hours">0</span>
+        <span class="timer-label">Horas</span>
+      </div>
+      <div class="timer-box">
+        <span class="timer-number" id="minutes">0</span>
+        <span class="timer-label">Min</span>
+      </div>
+      <div class="timer-box">
+        <span class="timer-number" id="seconds">0</span>
+        <span class="timer-label">Seg</span>
+      </div>
+    </div>
+
+    <!-- Música de Spotify -->
+    <div class="spotify-player">
+      <iframe src="https://open.spotify.com/embed/track/0q37bjxhRwzjtZynlU9ZsI?utm_source=generator&theme=0" width="100%" height="80" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
+    <!-- Carta -->
+    <div class="letter-container">
+      <p>Mi amor, te amo muchísimo, gracias por estar siempre por ser loca, por ser amorosa, por ser esa niña hermosa que siempre brilla así el día este, o estés apagada mi amor, gracias a ti, eh conocido mucho de mi, eh querido vivir junto a ti y quiero hacerlo por el resto de mi vida, perdón si a veces puedo llegar a ser tan difícil o problemático, mi amor yo te quiero siempre, y quiero que podamos estar para siempre quiero que seamos tú y yo, seamos chistosos cansones, que confiemos, que hagamos sentir cómodo y seguro al otro, que pensemos en los dos en nuestra relación, porque hablo de nosotros ahora, porque así como estamos cada uno solito estamos los dos juntos, y espero que eso de estar solo y tener nuestro espacio no signifique que el otro no puede estar, que antes contemos con el otro para ser y siempre ser, una pareja que se apoya con todo, y todo, mi amor un segundo sin ti es muy difícil, y más cuando sé que es por culpa mía, te quiero para toda toda mi vida Isabella. Te Amo🩵</p>
+    </div>
+
+    <!-- Pregunta e Interacción -->
+    <div class="question-section">
+      <h2 class="question-title">¿Quieres pasar el resto de nuestra vida juntos? 🌹</h2>
+      <div class="buttons">
+        <button class="btn btn-yes" onclick="celebrate()">¡SÍ, QUIERO! 🥰</button>
+        <button class="btn btn-no" id="btnNo">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuración de la Fecha de Inicio (16 Diciembre 2025, 04:30 PM)
+    const startDate = new Date(2025, 11, 16, 16, 30, 0);
+
+    function updateTimer() {
+      const now = new Date();
+      const difference = now - startDate;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((difference / 1000 / 60) % 60);
+        const seconds = Math.floor((difference / 1000) % 60);
+
+        document.getElementById('days').innerText = days;
+        document.getElementById('hours').innerText = hours;
+        document.getElementById('minutes').innerText = minutes;
+        document.getElementById('seconds').innerText = seconds;
+      } else {
+        document.getElementById('days').innerText = 0;
+        document.getElementById('hours').innerText = 0;
+        document.getElementById('minutes').innerText = 0;
+        document.getElementById('seconds').innerText = 0;
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // Slider de fotos
+    let currentSlide = 0;
+    const track = document.getElementById('track');
+    const totalSlides = document.querySelectorAll('.slide').length;
+
+    function moveSlide(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    // Botón NO evasivo
+    const btnNo = document.getElementById('btnNo');
+    btnNo.style.right = '80px';
+
+    btnNo.addEventListener('mouseover', moveButton);
+    btnNo.addEventListener('touchstart', moveButton);
+
+    function moveButton() {
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
+      btnNo.style.position = 'fixed';
+      btnNo.style.left = `${x}px`;
+      btnNo.style.top = `${y}px`;
+    }
+
+    function celebrate() {
+      alert('¡SABÍA QUE DIRÍAS QUE SÍ! TE AMO PARA SIEMPRE ISABELLA 🩵✨');
+    }
+
+    // Corazones flotantes
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '🩵';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+
+    setInterval(createHeart, 450);
+  </script>
+</body>
+</html>
